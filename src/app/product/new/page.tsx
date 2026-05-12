@@ -1,8 +1,7 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
+import { saveProductImage } from "@/lib/product-image";
 import { ProductEditForm } from "@/components/product-edit-form";
 import { createProduct, listCategories } from "@/lib/store";
 import { validateImageMax5MB } from "@/lib/utils";
@@ -27,18 +26,8 @@ async function createProductAction(formData: FormData) {
   }
 
   validateImageMax5MB(image);
-
-  const ext = path.extname(image.name).toLowerCase() || ".jpg";
-  const fileName = `product-${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
-  const relativePath = `/uploads/products/${fileName}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "products");
-  const fullPath = path.join(uploadDir, fileName);
-
-  await mkdir(uploadDir, { recursive: true });
-  const bytes = await image.arrayBuffer();
-  await writeFile(fullPath, Buffer.from(bytes));
-
-  await createProduct({ name, category, price, stock, imageUrl: relativePath });
+  const imageUrl = await saveProductImage(image);
+  await createProduct({ name, category, price, stock, imageUrl });
   redirect("/product");
 }
 

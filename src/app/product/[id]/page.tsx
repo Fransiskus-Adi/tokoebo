@@ -1,7 +1,6 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { saveProductImage } from "@/lib/product-image";
 import { buttonVariants } from "@/components/ui/button";
 import { ProductEditForm } from "@/components/product-edit-form";
 import { getProductById, listCategories, updateProductById } from "@/lib/store";
@@ -37,17 +36,7 @@ async function saveProductChanges(formData: FormData) {
 
   if (image instanceof File && image.size > 0) {
     validateImageMax5MB(image);
-
-    const ext = path.extname(image.name).toLowerCase() || ".jpg";
-    const fileName = `product-${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
-    const relativePath = `/uploads/products/${fileName}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "products");
-    const fullPath = path.join(uploadDir, fileName);
-
-    await mkdir(uploadDir, { recursive: true });
-    const bytes = await image.arrayBuffer();
-    await writeFile(fullPath, Buffer.from(bytes));
-    imageUrl = relativePath;
+    imageUrl = await saveProductImage(image);
   }
 
   const updated = await updateProductById(id, { name, category, price, stock, imageUrl });

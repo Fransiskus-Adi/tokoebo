@@ -33,11 +33,16 @@ const globalForDb = globalThis as unknown as {
   pgPool?: Pool;
 };
 
+const isSupabaseHost =
+  parsedHostname.endsWith(".supabase.co") ||
+  parsedHostname.endsWith(".supabase.com") ||
+  parsedHostname.includes("pooler.supabase.com");
+
 export const db =
   globalForDb.pgPool ??
   new Pool({
     connectionString,
-    ssl: connectionString.includes("supabase.co")
+    ssl: isSupabaseHost
       ? {
           rejectUnauthorized: false,
         }
