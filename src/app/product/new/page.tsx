@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
-import { saveProductImage } from "@/lib/product-image";
 import { ProductEditForm } from "@/components/product-edit-form";
 import { createProduct, listCategories } from "@/lib/store";
-import { validateImageMax5MB } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -15,19 +13,12 @@ async function createProductAction(formData: FormData) {
   const category = String(formData.get("category") ?? "").trim();
   const price = Number(formData.get("price"));
   const stock = Number(formData.get("stock"));
-  const image = formData.get("image");
 
   if (!name || !category || Number.isNaN(price) || Number.isNaN(stock) || price < 0 || stock < 0) {
     throw new Error("Invalid product data.");
   }
 
-  if (!(image instanceof File) || image.size === 0) {
-    throw new Error("Product image is required.");
-  }
-
-  validateImageMax5MB(image);
-  const imageUrl = await saveProductImage(image);
-  await createProduct({ name, category, price, stock, imageUrl });
+  await createProduct({ name, category, price, stock, imageUrl: "" });
   redirect("/product");
 }
 
@@ -56,7 +47,6 @@ export default async function NewProductPage() {
             priceLabel="-"
             submitLabel="Save Product"
             confirmMessage="Create this product?"
-            requireImage
           />
           <div className="sm:col-span-2">
             <Link href="/product" className={buttonVariants({ variant: "outline" })}>

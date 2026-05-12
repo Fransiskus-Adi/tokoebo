@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { saveProductImage } from "@/lib/product-image";
 import { buttonVariants } from "@/components/ui/button";
 import { ProductEditForm } from "@/components/product-edit-form";
 import { getProductById, listCategories, updateProductById } from "@/lib/store";
-import { validateImageMax5MB } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -26,20 +24,12 @@ async function saveProductChanges(formData: FormData) {
   const category = String(formData.get("category") ?? "").trim();
   const price = Number(formData.get("price"));
   const stock = Number(formData.get("stock"));
-  const image = formData.get("image");
 
   if (!id || !name || !category || Number.isNaN(price) || Number.isNaN(stock) || price < 0 || stock < 0) {
     throw new Error("Invalid product data.");
   }
 
-  let imageUrl: string | undefined;
-
-  if (image instanceof File && image.size > 0) {
-    validateImageMax5MB(image);
-    imageUrl = await saveProductImage(image);
-  }
-
-  const updated = await updateProductById(id, { name, category, price, stock, imageUrl });
+  const updated = await updateProductById(id, { name, category, price, stock });
   if (!updated) notFound();
 
   redirect(`/product/${id}`);
