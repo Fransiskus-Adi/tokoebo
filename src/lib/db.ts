@@ -1,9 +1,11 @@
 import { Pool } from "pg";
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL ?? process.env.SUPABASE_DB_URL;
 
 if (!connectionString) {
-  throw new Error("DATABASE_URL is not set. Add it to your environment variables.");
+  throw new Error(
+    "DATABASE_URL (or SUPABASE_DB_URL) is not set. Use your Supabase Postgres connection string.",
+  );
 }
 
 const globalForDb = globalThis as unknown as {
@@ -14,6 +16,11 @@ export const db =
   globalForDb.pgPool ??
   new Pool({
     connectionString,
+    ssl: connectionString.includes("supabase.co")
+      ? {
+          rejectUnauthorized: false,
+        }
+      : undefined,
   });
 
 if (process.env.NODE_ENV !== "production") {
