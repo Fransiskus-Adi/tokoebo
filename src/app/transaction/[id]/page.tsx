@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { getTransactionById } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 type TransactionDetailPageProps = {
   params: Promise<{ id: string }>;
 };

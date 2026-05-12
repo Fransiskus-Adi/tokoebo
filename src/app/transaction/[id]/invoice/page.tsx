@@ -4,6 +4,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { InvoiceAutoPrint } from "@/components/invoice-auto-print";
 import { getTransactionById } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 type InvoicePageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ mode?: string }>;

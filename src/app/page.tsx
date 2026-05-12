@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { listProducts, listTransactions } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 const currency = new Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR",

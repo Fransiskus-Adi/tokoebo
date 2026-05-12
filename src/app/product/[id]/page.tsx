@@ -7,6 +7,8 @@ import { ProductEditForm } from "@/components/product-edit-form";
 import { getProductById, listCategories, updateProductById } from "@/lib/store";
 import { validateImageMax5MB } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 type ProductDetailPageProps = {
   params: Promise<{ id: string }>;
 };

@@ -3,6 +3,8 @@ import { DeleteConfirmButton } from "@/components/delete-confirm-button";
 import { buttonVariants } from "@/components/ui/button";
 import { createCategory, deleteCategoryById, listCategories } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 export default async function CategoryPage() {
   async function handleCreate(formData: FormData) {
     "use server";

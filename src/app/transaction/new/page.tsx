@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { TransactionCreateForm } from "@/components/transaction-create-form";
 import { createTransaction, getProductsByIds, listProducts } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 async function createTransactionAction(formData: FormData) {
   "use server";
 

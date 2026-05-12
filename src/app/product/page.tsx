@@ -5,6 +5,8 @@ import { DeleteConfirmButton } from "@/components/delete-confirm-button";
 import { buttonVariants } from "@/components/ui/button";
 import { deleteProductById, listProducts } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 const currency = new Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR",

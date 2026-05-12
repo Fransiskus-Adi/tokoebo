@@ -7,6 +7,8 @@ import { ProductEditForm } from "@/components/product-edit-form";
 import { createProduct, listCategories } from "@/lib/store";
 import { validateImageMax5MB } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 async function createProductAction(formData: FormData) {
   "use server";
 

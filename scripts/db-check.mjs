@@ -23,6 +23,12 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Database connection failed:", error.message);
+  const message = error?.message || String(error);
+  const code = error?.code ? ` (code: ${error.code})` : "";
+  const host = error?.hostname ? ` host=${error.hostname}` : "";
+  console.error(`Database connection failed${code}${host}: ${message}`);
+  if (error?.stack) {
+    console.error(error.stack);
+  }
   process.exit(1);
 });

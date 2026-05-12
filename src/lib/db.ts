@@ -8,6 +8,19 @@ if (!connectionString) {
   );
 }
 
+let parsedHostname = "";
+try {
+  parsedHostname = new URL(connectionString).hostname;
+} catch {
+  throw new Error("DATABASE_URL is not a valid connection string URI.");
+}
+
+if (parsedHostname === "base") {
+  throw new Error(
+    "DATABASE_URL hostname is 'base', which is invalid. Set DATABASE_URL to your full Supabase/Postgres URI.",
+  );
+}
+
 const globalForDb = globalThis as unknown as {
   pgPool?: Pool;
 };
