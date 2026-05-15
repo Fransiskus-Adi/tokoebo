@@ -4,10 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:branch": "next dev",
     "build": "next build",
+    "build:prod": "next build",
     "start": "next start",
+    "start:prod": "next start",
     "lint": "eslint",
-    "db:check": "node scripts/db-check.mjs"
+    "db:check": "node scripts/db-check.mjs dev",
+    "db:check:dev": "node scripts/db-check.mjs dev",
+    "db:check:prod": "node scripts/db-check.mjs prod",
+    "db:users:create": "node scripts/db-create-users-table.mjs dev",
+    "db:users:create:dev": "node scripts/db-create-users-table.mjs dev",
+    "db:users:create:prod": "node scripts/db-create-users-table.mjs prod",
+    "db:user:create:dev": "node scripts/db-create-user.mjs dev",
+    "db:user:create:prod": "node scripts/db-create-user.mjs prod"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

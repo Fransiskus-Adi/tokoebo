@@ -1,5 +1,38 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Branch-Based Environments (`dev` and `prod`)
+
+Use separate local env files so each branch points to the correct database/project:
+
+- `.env.development.local` for your `dev` branch
+- `.env.production.local` for your `prod` branch
+
+Setup:
+
+```bash
+# from repo root
+cp .env.development.local.example .env.development.local
+cp .env.production.local.example .env.production.local
+```
+
+Then fill each file with the correct credentials for that environment.
+
+Required auth variable:
+
+- `AUTH_JWT_SECRET`
+
+Login credentials are read from the `public.users` table in your database.
+
+Notes:
+
+- `npm run dev` uses development env files.
+- `npm run build` / `npm run start` use production env files.
+- `npm run db:check:dev` checks DB using `.env.development.local`.
+- `npm run db:check:prod` checks DB using `.env.production.local`.
+- Create/update login user in DB:
+  - `npm run db:user:create:dev -- <username> <password>`
+  - `npm run db:user:create:prod -- <username> <password>`
+
 ## Getting Started
 
 First, run the development server:

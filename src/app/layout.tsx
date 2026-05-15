@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppShell } from "@/components/app-shell";
 import { PwaRegister } from "@/components/pwa-register";
 import "./globals.css";
 
@@ -40,12 +40,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-zinc-100 p-4 md:p-6">
         <PwaRegister />
-        <section className="mx-auto grid w-full max-w-[1400px] gap-4 lg:grid-cols-[250px_1fr]">
-          <AppSidebar />
-          <main className="min-w-0 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 pb-24 md:p-5">
-            {children}
-          </main>
-        </section>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

@@ -19,11 +19,24 @@ async function main() {
   const pool = new Pool({ connectionString });
 
   try {
-    const result = await pool.query("select current_database() as db, now() as time");
-    const row = result.rows[0];
+    await pool.query(`
+      create table if not exists public.users (
+        id bigserial primary key,
+        username text not null unique,
+        password_hash text not null,
+        role text not null default 'staff',
+        is_active boolean not null default true,
+        created_at timestamptz not null default now(),
+        updated_at timestamptz not null default now()
+      );
+    `);
+
+    await pool.query(`
+      create index if not exists users_username_idx on public.users (username);
+    `);
+
     console.log(`Using env file: ${envFile}`);
-    console.log(`Connected to database: ${row.db}`);
-    console.log(`Server time: ${row.time}`);
+    console.log("Table ensured: public.users");
   } finally {
     await pool.end();
   }
@@ -33,9 +46,10 @@ main().catch((error) => {
   const message = error?.message || String(error);
   const code = error?.code ? ` (code: ${error.code})` : "";
   const host = error?.hostname ? ` host=${error.hostname}` : "";
-  console.error(`Database connection failed${code}${host}: ${message}`);
+  console.error(`Create users table failed${code}${host}: ${message}`);
   if (error?.stack) {
     console.error(error.stack);
   }
   process.exit(1);
 });
+

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const generalMenus = [
   { label: "Dashboard", href: "/" },
@@ -65,6 +65,13 @@ function Icon({ type, active }: { type: (typeof mobileMenus)[number]["icon"]; ac
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.replace("/login");
+    router.refresh();
+  }
 
   return (
     <>
@@ -172,6 +179,13 @@ export function AppSidebar() {
               <p className="text-xs text-zinc-500">Team</p>
               <p className="text-sm font-semibold text-zinc-900">Marketing</p>
             </div>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mt-3 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </aside>
