@@ -185,9 +185,9 @@ export async function GET(_: Request, { params }: RouteProps) {
   const footerTop = 160;
 
   page.drawText("Payment Information", { x, y: footerTop + 8, size: 13, font: bold });
-  page.drawText("Toko Ebo", { x, y: footerTop - 18, size: 12, font });
-  page.drawText("Bank: Toko Ebo Bank", { x, y: footerTop - 40, size: 12, font });
-  page.drawText("Account No: 0123 4567 8901", { x, y: footerTop - 62, size: 12, font });
+  page.drawText("Brigitta Agrari", { x, y: footerTop - 18, size: 12, font });
+  page.drawText("Bank: BCA", { x, y: footerTop - 40, size: 12, font });
+  page.drawText("Account No: 7180329891", { x, y: footerTop - 62, size: 12, font });
 
   page.drawLine({
     start: { x, y: 52 },
