@@ -1,9 +1,17 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginPageFallback />}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [username, setUsername] = useState("");
@@ -85,6 +93,18 @@ export default function LoginPage() {
           {submitting ? "Signing in..." : "Sign in"}
         </button>
       </form>
+    </section>
+  );
+}
+
+function LoginPageFallback() {
+  return (
+    <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm md:p-8">
+      <div className="mb-6">
+        <p className="text-sm text-zinc-500">Toko Ebo</p>
+        <h1 className="text-2xl font-semibold text-zinc-900">Sign in</h1>
+      </div>
+      <p className="text-sm text-zinc-600">Loading...</p>
     </section>
   );
 }
