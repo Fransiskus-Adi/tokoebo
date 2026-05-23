@@ -13,12 +13,12 @@ export default async function Home() {
   const [transactions, products] = await Promise.all([listTransactions(), listProducts()]);
 
   const unpaidTransactions = transactions
-    .filter((item) => item.status === "Unpaid")
+    .filter((item) => item.payment_status === "Unpaid")
     .sort((a, b) => +new Date(a.created_at) - +new Date(b.created_at))
     .slice(0, 5);
 
   const totalRevenue = transactions.reduce((sum, item) => sum + Number(item.amount), 0);
-  const paidCount = transactions.filter((item) => item.status === "Paid").length;
+  const paidCount = transactions.filter((item) => item.payment_status === "Paid").length;
   const paidRate = transactions.length > 0 ? (paidCount / transactions.length) * 100 : 0;
 
   const soldByProduct = new Map<string, { name: string; quantity: number }>();
