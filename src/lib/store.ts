@@ -5,6 +5,7 @@ export {
   deleteTransactionById,
   getTransactionById,
   listTransactions,
+  updateTransactionDeliveryStatusById,
   updateTransactionStatusById,
 } from "@/modules/transaction/controller";
 

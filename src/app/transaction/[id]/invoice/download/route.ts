@@ -2,6 +2,8 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { NextResponse } from "next/server";
 import { getTransactionById } from "@/lib/store";
 
+export const runtime = "nodejs";
+
 type RouteProps = {
   params: Promise<{ id: string }>;
 };
@@ -110,7 +112,9 @@ export async function GET(_: Request, { params }: RouteProps) {
   y -= 30;
   page.drawText(transaction.customer_name, { x, y, size: 13, font });
   y -= 22;
-  page.drawText(`Status: ${transaction.status}`, { x, y, size: 13, font });
+  page.drawText(`Payment Status: ${transaction.payment_status}`, { x, y, size: 13, font });
+  y -= 22;
+  page.drawText(`Delivery Status: ${transaction.delivery_status}`, { x, y, size: 13, font });
   y -= 22;
   page.drawText("Toko Ebo Customer", { x, y, size: 13, font });
   y -= 30;
