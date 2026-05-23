@@ -275,14 +275,26 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-zinc-700">Status</span>
+        <span className="text-sm font-medium text-zinc-700">Payment Status</span>
         <select
-          name="status"
+          name="paymentStatus"
           defaultValue="Unpaid"
           className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
         >
           <option value="Unpaid">Unpaid</option>
           <option value="Paid">Paid</option>
+        </select>
+      </label>
+
+      <label className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-zinc-700">Delivery Status</span>
+        <select
+          name="deliveryStatus"
+          defaultValue="Pending"
+          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+        >
+          <option value="Pending">Pending</option>
+          <option value="Delivered">Delivered</option>
         </select>
       </label>
 

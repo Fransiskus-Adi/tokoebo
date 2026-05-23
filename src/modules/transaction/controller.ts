@@ -3,6 +3,7 @@ import {
   deleteTransactionByIdService,
   getTransactionByIdService,
   listTransactionsService,
+  updateTransactionDeliveryStatusByIdService,
   updateTransactionStatusByIdService,
 } from "@/modules/transaction/service";
 
@@ -26,7 +27,8 @@ export async function createTransaction(input: {
   }>;
   amount: number;
   deliveryFee: number;
-  status: "Paid" | "Unpaid";
+  paymentStatus: "Paid" | "Unpaid";
+  deliveryStatus: "Pending" | "Delivered";
   dueDate: string | null;
 }) {
   return createTransactionService(input);
@@ -36,6 +38,13 @@ export async function deleteTransactionById(id: string) {
   return deleteTransactionByIdService(id);
 }
 
-export async function updateTransactionStatusById(id: string, status: "Paid" | "Unpaid") {
-  return updateTransactionStatusByIdService(id, status);
+export async function updateTransactionStatusById(id: string, paymentStatus: "Paid" | "Unpaid") {
+  return updateTransactionStatusByIdService(id, paymentStatus);
+}
+
+export async function updateTransactionDeliveryStatusById(
+  id: string,
+  deliveryStatus: "Pending" | "Delivered",
+) {
+  return updateTransactionDeliveryStatusByIdService(id, deliveryStatus);
 }

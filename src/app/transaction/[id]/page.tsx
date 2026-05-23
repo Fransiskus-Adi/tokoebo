@@ -40,8 +40,12 @@ export default async function TransactionDetailPage({ params }: TransactionDetai
           <p className="mt-1 font-medium text-zinc-900">{transaction.item_name || "-"}</p>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-wide text-zinc-500">Status</p>
-          <p className="mt-1 font-medium text-zinc-900">{transaction.status}</p>
+          <p className="text-xs uppercase tracking-wide text-zinc-500">Payment Status</p>
+          <p className="mt-1 font-medium text-zinc-900">{transaction.payment_status}</p>
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-wide text-zinc-500">Delivery Status</p>
+          <p className="mt-1 font-medium text-zinc-900">{transaction.delivery_status}</p>
         </div>
         <div>
           <p className="text-xs uppercase tracking-wide text-zinc-500">Amount</p>

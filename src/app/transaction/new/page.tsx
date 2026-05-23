@@ -11,7 +11,8 @@ async function createTransactionAction(formData: FormData) {
   const productIds = formData.getAll("productIds").map((value) => String(value));
   const quantities = formData.getAll("quantities").map((value) => Number(value));
   const deliveryFee = Number(formData.get("deliveryFee") ?? 0);
-  const status = String(formData.get("status") ?? "Unpaid") as "Paid" | "Unpaid";
+  const paymentStatus = String(formData.get("paymentStatus") ?? "Unpaid") as "Paid" | "Unpaid";
+  const deliveryStatus = String(formData.get("deliveryStatus") ?? "Pending") as "Pending" | "Delivered";
   const dueDate = String(formData.get("dueDate") ?? "").trim() || null;
 
   if (
@@ -55,7 +56,16 @@ async function createTransactionAction(formData: FormData) {
     .map((product) => `${product.name} x${quantityByProductId.get(product.id) ?? 1}`)
     .join(", ");
 
-  await createTransaction({ customerName, itemName, itemDetails, amount, deliveryFee, status, dueDate });
+  await createTransaction({
+    customerName,
+    itemName,
+    itemDetails,
+    amount,
+    deliveryFee,
+    paymentStatus,
+    deliveryStatus,
+    dueDate,
+  });
   redirect("/transaction");
 }
 

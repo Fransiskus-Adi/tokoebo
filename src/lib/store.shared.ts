@@ -13,7 +13,8 @@ export type TransactionRow = {
   }>;
   amount: number;
   delivery_fee: number;
-  status: "Paid" | "Unpaid";
+  payment_status: "Paid" | "Unpaid";
+  delivery_status: "Pending" | "Delivered";
   due_date: string | null;
   created_at: string;
 };
@@ -47,10 +48,29 @@ export async function ensureSchema() {
       item_details jsonb not null default '[]'::jsonb,
       amount numeric(14,2) not null check (amount >= 0),
       delivery_fee numeric(14,2) not null default 0 check (delivery_fee >= 0),
-      status text not null default 'Unpaid' check (status in ('Paid', 'Unpaid')),
+      payment_status text not null default 'Unpaid' check (payment_status in ('Paid', 'Unpaid')),
+      delivery_status text not null default 'Pending' check (delivery_status in ('Pending', 'Delivered')),
       due_date date,
       created_at timestamptz not null default now()
     );
+  `);
+  await db.query(`
+    do $$
+    begin
+      if exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'transactions'
+          and column_name = 'status'
+      ) and not exists (
+        select 1
+        from information_schema.columns
+        where table_name = 'transactions'
+          and column_name = 'payment_status'
+      ) then
+        alter table transactions rename column status to payment_status;
+      end if;
+    end $$;
   `);
   await db.query(`
     alter table transactions
@@ -63,6 +83,24 @@ export async function ensureSchema() {
   await db.query(`
     alter table transactions
     add column if not exists delivery_fee numeric(14,2) not null default 0;
+  `);
+  await db.query(`
+    alter table transactions
+    add column if not exists payment_status text not null default 'Unpaid';
+  `);
+  await db.query(`
+    alter table transactions
+    add column if not exists delivery_status text not null default 'Pending';
+  `);
+  await db.query(`
+    update transactions
+    set payment_status = coalesce(payment_status, 'Unpaid')
+    where payment_status is null;
+  `);
+  await db.query(`
+    update transactions
+    set delivery_status = coalesce(delivery_status, 'Pending')
+    where delivery_status is null;
   `);
 
   await db.query(`
