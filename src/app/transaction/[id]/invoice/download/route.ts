@@ -1,3 +1,5 @@
+import fs from "fs/promises";
+import path from "path";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { NextResponse } from "next/server";
 import { getTransactionById } from "@/lib/store";
@@ -79,10 +81,26 @@ export async function GET(_: Request, { params }: RouteProps) {
   let y = 730;
   const x = 48;
 
+  try {
+    const logoPath = path.join(process.cwd(), "public", "logo.png");
+    const logoBytes = await fs.readFile(logoPath);
+    const logoImage = await pdfDoc.embedPng(logoBytes);
+    const logoHeight = 42;
+    const logoWidth = (logoHeight * logoImage.width) / logoImage.height;
+    page.drawImage(logoImage, {
+      x: pageRight - logoWidth,
+      y: 715,
+      width: logoWidth,
+      height: logoHeight,
+    });
+  } catch {
+    // ignore if logo cannot be loaded
+  }
+
   page.drawText("Invoice", {
     x,
-    y,
-    size: 88,
+    y: 715,
+    size: 76,
     font: bold,
     color: black,
   });
@@ -116,7 +134,7 @@ export async function GET(_: Request, { params }: RouteProps) {
   y -= 22;
   page.drawText(`Delivery Status: ${transaction.delivery_status}`, { x, y, size: 13, font });
   y -= 22;
-  page.drawText("Toko Ebo Customer", { x, y, size: 13, font });
+  page.drawText("Eboo Bakery Customer", { x, y, size: 13, font });
   y -= 30;
   page.drawLine({ start: { x, y }, end: { x: pageRight, y }, thickness: 1, color: lineColor });
 

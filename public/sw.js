@@ -14,7 +14,7 @@ self.addEventListener('push', (event) => {
   if (!event.data) return;
 
   const data = event.data.json();
-  const title = data.title || 'Toko Ebo';
+  const title = data.title || 'Eboo Bakery';
   const options = {
     body: data.body || '',
     icon: data.icon || '/favicon.ico',

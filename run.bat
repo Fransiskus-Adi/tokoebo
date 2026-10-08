@@ -1,6 +1,6 @@
 @echo off
 echo ===========================
-echo    Tokoebo - Dev Server
+echo    Eboo Bakery - Dev Server
 echo ===========================
 echo.
 

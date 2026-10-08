@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const generalMenus = [
@@ -135,8 +136,17 @@ export function AppSidebar() {
 
       <aside className="hidden lg:static lg:z-auto lg:block lg:w-auto lg:rounded-2xl lg:border lg:border-zinc-200 lg:bg-white lg:shadow-sm">
         <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-5">
-            <p className="text-lg font-semibold text-indigo-700">Toko Ebo</p>
+          <div className="flex items-center border-b border-zinc-200 px-4 py-4">
+            <Link href="/" className="inline-block">
+              <Image
+                src="/logo.png"
+                alt="Eboo Bakery"
+                width={150}
+                height={75}
+                className="h-9 w-auto object-contain"
+                priority
+              />
+            </Link>
           </div>
 
           <div className="flex-1 space-y-6 px-3 py-4">

@@ -4,16 +4,16 @@ import { PwaRegister } from "@/components/pwa-register";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Toko Ebo Dashboard",
-  description: "Toko Ebo management dashboard",
-  applicationName: "Toko Ebo Dashboard",
+  title: "Eboo Bakery Dashboard",
+  description: "Eboo Bakery management dashboard",
+  applicationName: "Eboo Bakery Dashboard",
   icons: {
     apple: "/apple-touch-icon.png",
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Toko Ebo Dashboard",
+    title: "Eboo Bakery Dashboard",
   },
 };
 

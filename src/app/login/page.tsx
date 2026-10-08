@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, Suspense, useState } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
@@ -51,7 +52,14 @@ function LoginPageContent() {
   return (
     <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm md:p-8">
       <div className="mb-6">
-        <p className="text-sm text-zinc-500">Toko Ebo</p>
+        <Image
+          src="/logo.png"
+          alt="Eboo Bakery"
+          width={180}
+          height={90}
+          className="mb-4 h-11 w-auto object-contain"
+          priority
+        />
         <h1 className="text-2xl font-semibold text-zinc-900">Sign in</h1>
         <p className="mt-1 text-sm text-zinc-600">Use your dashboard credentials to continue.</p>
       </div>
@@ -101,7 +109,14 @@ function LoginPageFallback() {
   return (
     <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm md:p-8">
       <div className="mb-6">
-        <p className="text-sm text-zinc-500">Toko Ebo</p>
+        <Image
+          src="/logo.png"
+          alt="Eboo Bakery"
+          width={180}
+          height={90}
+          className="mb-4 h-11 w-auto object-contain"
+          priority
+        />
         <h1 className="text-2xl font-semibold text-zinc-900">Sign in</h1>
       </div>
       <p className="text-sm text-zinc-600">Loading...</p>

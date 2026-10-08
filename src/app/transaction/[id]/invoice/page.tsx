@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
@@ -58,12 +59,19 @@ export default async function TransactionInvoicePage({ params, searchParams }: I
       <section className="rounded-xl border bg-white p-6 shadow-sm print:rounded-none print:border-0 print:shadow-none">
         <div className="flex items-start justify-between border-b pb-4">
           <div>
-            <p className="text-sm text-zinc-500">Invoice</p>
-            <h1 className="text-2xl font-semibold text-zinc-900">{transaction.id}</h1>
+            <p className="text-xs uppercase tracking-wider text-zinc-500">Invoice</p>
+            <h1 className="text-2xl font-bold text-zinc-900 md:text-3xl">{transaction.id}</h1>
           </div>
-          <div className="text-right text-sm text-zinc-600">
-            <p>Toko Ebo</p>
-            <p>{new Date(transaction.created_at).toLocaleDateString("id-ID")}</p>
+          <div className="flex flex-col items-end">
+            <Image
+              src="/logo.png"
+              alt="Eboo Bakery"
+              width={160}
+              height={70}
+              className="h-9 w-auto object-contain md:h-11"
+              priority
+            />
+            <p className="mt-1 text-sm text-zinc-600">{new Date(transaction.created_at).toLocaleDateString("id-ID")}</p>
           </div>
         </div>
 

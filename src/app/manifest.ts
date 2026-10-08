@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Toko Ebo Dashboard',
-    short_name: 'TokoEbo',
-    description: 'Toko Ebo management dashboard',
+    name: 'Eboo Bakery Dashboard',
+    short_name: 'Eboo Bakery',
+    description: 'Eboo Bakery management dashboard',
     start_url: '/',
     display: 'standalone',
     background_color: '#f4f4f5',
