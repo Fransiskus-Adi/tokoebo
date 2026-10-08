@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { InvoiceAutoPrint } from "@/components/invoice-auto-print";
 import { getTransactionById } from "@/lib/store";
+import { AUTH_COOKIE_NAME, decodeTokenPayload } from "@/lib/auth";
+import { getProfile } from "@/modules/profile/controller";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +23,17 @@ const currency = new Intl.NumberFormat("id-ID", {
 export default async function TransactionInvoicePage({ params, searchParams }: InvoicePageProps) {
   const { id } = await params;
   const query = await searchParams;
-  const transaction = await getTransactionById(id);
+
+  // Fetch transaction and payment profile in parallel
+  const cookieStore = await cookies();
+  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
+  const payload = token ? decodeTokenPayload(token) : null;
+  const username = typeof payload?.sub === "string" ? payload.sub : null;
+
+  const [transaction, profile] = await Promise.all([
+    getTransactionById(id),
+    username ? getProfile(username) : Promise.resolve(null),
+  ]);
 
   if (!transaction) notFound();
 
@@ -83,6 +96,16 @@ export default async function TransactionInvoicePage({ params, searchParams }: I
             <span className="font-semibold text-zinc-900">{currency.format(transaction.amount)}</span>
           </div>
         </div>
+
+        {/* Payment Information */}
+        {profile?.payment_name && profile?.payment_bank && profile?.payment_account_no && (
+          <div className="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm">
+            <p className="mb-2 font-semibold text-zinc-700">Payment Information</p>
+            <p className="text-zinc-800">{profile.payment_name}</p>
+            <p className="text-zinc-600">Bank: {profile.payment_bank}</p>
+            <p className="text-zinc-600">Account No: {profile.payment_account_no}</p>
+          </div>
+        )}
       </section>
     </div>
   );

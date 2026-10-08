@@ -13,11 +13,14 @@ const toolMenus = [
   { label: "Category", href: "/category" },
 ];
 
+const accountMenus = [{ label: "Profile", href: "/profile" }];
+
 const mobileMenus = [
   { label: "Home", href: "/", icon: "home" },
   { label: "Transaction", href: "/transaction", icon: "receipt" },
   { label: "Product", href: "/product", icon: "box" },
   { label: "Category", href: "/category", icon: "tag" },
+  { label: "Profile", href: "/profile", icon: "profile" },
 ] as const;
 
 function Icon({ type, active }: { type: (typeof mobileMenus)[number]["icon"]; active: boolean }) {
@@ -57,6 +60,14 @@ function Icon({ type, active }: { type: (typeof mobileMenus)[number]["icon"]; ac
       <svg viewBox="0 0 24 24" className={`h-4 w-4 ${color}`} fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M11 3H5v6l8.5 8.5a2.1 2.1 0 0 0 3 0l1-1a2.1 2.1 0 0 0 0-3L11 3Z" />
         <circle cx="7.5" cy="7.5" r="1" />
+      </svg>
+    );
+  }
+  if (type === "profile") {
+    return (
+      <svg viewBox="0 0 24 24" className={`h-4 w-4 ${color}`} fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
       </svg>
     );
   }
@@ -155,6 +166,28 @@ export function AppSidebar() {
               <p className="px-3 pb-2 text-[11px] font-semibold tracking-wide text-zinc-400">TOOLS</p>
               <nav className="space-y-1">
                 {toolMenus.map((menu) => {
+                  const isActive = pathname === menu.href;
+                  return (
+                    <Link
+                      key={menu.href}
+                      href={menu.href}
+                      className={
+                        isActive
+                          ? "block rounded-lg bg-zinc-100 px-3 py-2 text-sm font-semibold text-zinc-900"
+                          : "block rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"
+                      }
+                    >
+                      {menu.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </section>
+
+            <section>
+              <p className="px-3 pb-2 text-[11px] font-semibold tracking-wide text-zinc-400">ACCOUNT</p>
+              <nav className="space-y-1">
+                {accountMenus.map((menu) => {
                   const isActive = pathname === menu.href;
                   return (
                     <Link
