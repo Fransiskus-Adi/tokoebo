@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE_NAME, verifyAuthToken } from "@/lib/auth";
+import { updateSession } from "@/utils/supabase/middleware";
 
 const PUBLIC_PATHS = new Set(["/login"]);
 
@@ -23,7 +24,13 @@ function readToken(request: NextRequest): string | null {
   return request.cookies.get(AUTH_COOKIE_NAME)?.value ?? null;
 }
 
-export function proxy(request: NextRequest) {
+function redirectWithSessionCookies(url: URL, sessionResponse: NextResponse) {
+  const response = NextResponse.redirect(url);
+  sessionResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
+  return response;
+}
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (isPublicAsset(pathname)) {
@@ -34,6 +41,8 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  const sessionResponse = await updateSession(request);
+
   const token = readToken(request);
   const payload = token ? verifyAuthToken(token) : null;
   const isAuthenticated = Boolean(payload);
@@ -42,14 +51,14 @@ export function proxy(request: NextRequest) {
   if (!isAuthenticated && !isPublicPath) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", pathname);
-    return NextResponse.redirect(loginUrl);
+    return redirectWithSessionCookies(loginUrl, sessionResponse);
   }
 
   if (isAuthenticated && pathname === "/login") {
-    return NextResponse.redirect(new URL("/", request.url));
+    return redirectWithSessionCookies(new URL("/", request.url), sessionResponse);
   }
 
-  return NextResponse.next();
+  return sessionResponse;
 }
 
 export const config = {

@@ -21,6 +21,13 @@ Required auth variable:
 
 - `AUTH_JWT_SECRET`
 
+Optional development database fallback:
+
+- Set `DATABASE_URL` to local Postgres.
+- Set `SUPABASE_DB_URL` to the Supabase connection pooler URI.
+- The app switches to Supabase only when the local database cannot be reached.
+- SQL and authentication errors do not trigger a fallback.
+
 Login credentials are read from the `public.users` table in your database.
 
 Notes:

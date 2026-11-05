@@ -26,10 +26,12 @@ function getSupabaseKey({ useServiceRole = false }: SupabaseClientOptions) {
     return key;
   }
 
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!key) {
-    throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY is not set.");
+    throw new Error("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is not set.");
   }
 
   return key;
