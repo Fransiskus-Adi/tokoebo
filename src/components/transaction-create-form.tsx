@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+
+const fieldClass =
+  "h-11 rounded-xl border border-white/90 bg-white/70 px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-violet-300 focus:ring-4 focus:ring-violet-100/70";
+const quantityButtonClass =
+  "grid size-8 place-items-center rounded-lg border border-violet-100 bg-white/75 text-sm font-semibold text-violet-700 shadow-sm transition hover:bg-violet-50";
 
 type ProductOption = {
   id: string;
@@ -42,25 +47,25 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
   return (
     <form action={onSubmit} className="grid gap-4 sm:grid-cols-2">
       <label className="flex flex-col gap-2 sm:col-span-2">
-        <span className="text-sm font-medium text-zinc-700">Customer Name</span>
+        <span className="text-sm font-semibold text-slate-700">Customer Name</span>
         <input
           name="customerName"
           required
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
           placeholder="Input customer name"
         />
       </label>
 
       <div className="flex flex-col gap-2 sm:col-span-2">
-        <span className="text-sm font-medium text-zinc-700">Ordered Products</span>
-        <div className="rounded-md border p-4">
+        <span className="text-sm font-semibold text-slate-700">Ordered Products</span>
+        <div className="rounded-2xl border border-white/90 bg-white/35 p-4 shadow-sm">
           <div className="grid gap-2 sm:grid-cols-[1fr_120px_auto]">
             <label className="flex flex-col gap-1">
               <span className="text-xs font-medium text-zinc-500">Product</span>
               <select
                 value={selectedProductId}
                 onChange={(event) => setSelectedProductId(event.target.value)}
-                className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+                className={fieldClass}
               >
                 {products.map((product) => (
                   <option key={product.id} value={product.id}>
@@ -76,13 +81,13 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
                 min="1"
                 value={quantityInput}
                 onChange={(event) => setQuantityInput(Math.max(1, Number(event.target.value) || 1))}
-                className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+                className={fieldClass}
                 placeholder="Qty"
               />
             </label>
             <button
               type="button"
-              className="h-10 rounded-md bg-indigo-600 px-4 text-sm font-medium text-white transition hover:bg-indigo-700 sm:mt-[20px]"
+              className="h-11 rounded-xl bg-violet-700 px-4 text-sm font-semibold text-white shadow-lg shadow-violet-700/20 transition hover:bg-violet-800 sm:mt-[20px]"
               onClick={() => {
                 if (!selectedProductId) return;
                 setItems((prev) => {
@@ -111,7 +116,7 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
 
           <div className="mt-4 space-y-2">
             {items.length === 0 ? (
-              <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 p-3 text-xs text-zinc-500">
+              <div className="rounded-xl border border-dashed border-violet-200 bg-white/45 p-3 text-xs text-slate-500">
                 No products added yet. Pick a product, set quantity, then click Add Product.
               </div>
             ) : (
@@ -121,14 +126,14 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
                     const product = products.find((p) => p.id === item.productId);
                     if (!product) return null;
                     return (
-                      <div key={item.productId} className="rounded-md border bg-zinc-50 p-3 text-sm">
+                      <div key={item.productId} className="rounded-xl border border-white/90 bg-white/55 p-3 text-sm shadow-sm">
                         <p className="font-medium text-zinc-900">{product.name}</p>
                         <p className="mt-1 text-xs text-zinc-600">Unit price: {currency.format(product.price)}</p>
                         <div className="mt-2 flex items-center justify-between">
                           <div className="inline-flex items-center gap-2">
                             <button
                               type="button"
-                              className="h-7 w-7 rounded border bg-white text-sm hover:bg-zinc-100"
+                              className={quantityButtonClass}
                               onClick={() =>
                                 setItems((prev) =>
                                   prev.map((entry) =>
@@ -144,7 +149,7 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
                             <span className="min-w-5 text-center font-medium">{item.quantity}</span>
                             <button
                               type="button"
-                              className="h-7 w-7 rounded border bg-white text-sm hover:bg-zinc-100"
+                              className={quantityButtonClass}
                               onClick={() =>
                                 setItems((prev) =>
                                   prev.map((entry) =>
@@ -178,9 +183,9 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
                   })}
                 </div>
 
-                <div className="hidden overflow-x-auto rounded-md border sm:block">
+                <div className="hidden overflow-x-auto rounded-xl border border-white/90 bg-white/40 sm:block">
                   <table className="w-full text-left text-sm">
-                    <thead className="bg-zinc-50 text-zinc-600">
+                    <thead className="bg-violet-50/60 text-slate-600">
                       <tr>
                         <th className="px-3 py-2 font-medium">Product</th>
                         <th className="px-3 py-2 font-medium">Unit Price</th>
@@ -194,14 +199,14 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
                         const product = products.find((p) => p.id === item.productId);
                         if (!product) return null;
                         return (
-                          <tr key={item.productId} className="border-t">
+                          <tr key={item.productId} className="border-t border-white/90">
                             <td className="px-3 py-2">{product.name}</td>
                             <td className="px-3 py-2">{currency.format(product.price)}</td>
                             <td className="px-3 py-2">
                               <div className="inline-flex items-center gap-2">
                                 <button
                                   type="button"
-                                  className="h-7 w-7 rounded border bg-white text-sm hover:bg-zinc-100"
+                                  className={quantityButtonClass}
                                   onClick={() =>
                                     setItems((prev) =>
                                       prev.map((entry) =>
@@ -217,7 +222,7 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
                                 <span className="min-w-6 text-center font-medium">{item.quantity}</span>
                                 <button
                                   type="button"
-                                  className="h-7 w-7 rounded border bg-white text-sm hover:bg-zinc-100"
+                                  className={quantityButtonClass}
                                   onClick={() =>
                                     setItems((prev) =>
                                       prev.map((entry) =>
@@ -261,7 +266,7 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
       </div>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-zinc-700">Delivery Fee</span>
+        <span className="text-sm font-semibold text-slate-700">Delivery Fee</span>
         <input
           name="deliveryFee"
           type="text"
@@ -269,17 +274,17 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
           pattern="[0-9]*"
           value={deliveryFee}
           onChange={(event) => setDeliveryFee(Number(event.target.value) || 0)}
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
           placeholder="0"
         />
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-zinc-700">Payment Status</span>
+        <span className="text-sm font-semibold text-slate-700">Payment Status</span>
         <select
           name="paymentStatus"
           defaultValue="Unpaid"
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
         >
           <option value="Unpaid">Unpaid</option>
           <option value="Paid">Paid</option>
@@ -287,26 +292,26 @@ export function TransactionCreateForm({ products, onSubmit }: TransactionCreateF
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-zinc-700">Delivery Status</span>
+        <span className="text-sm font-semibold text-slate-700">Delivery Status</span>
         <select
           name="deliveryStatus"
           defaultValue="Pending"
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
         >
           <option value="Pending">Pending</option>
           <option value="Delivered">Delivered</option>
         </select>
       </label>
 
-      <div className="rounded-md border bg-zinc-50 p-4 text-sm sm:col-span-2">
+      <div className="rounded-2xl border border-violet-100 bg-violet-50/55 p-4 text-sm shadow-sm sm:col-span-2">
         <p className="text-zinc-600">Subtotal Product: <span className="font-medium text-zinc-900">{currency.format(subtotal)}</span></p>
         <p className="text-zinc-600">Delivery Fee: <span className="font-medium text-zinc-900">{currency.format(deliveryFee)}</span></p>
         <p className="mt-1 text-zinc-700">Total: <span className="text-base font-semibold text-zinc-900">{currency.format(grandTotal)}</span></p>
       </div>
 
       <div className="mt-2 flex gap-3 sm:col-span-2">
-        <Button type="submit">Save Transaction</Button>
-        <Link href="/transaction" className={buttonVariants({ variant: "outline" })}>
+        <Button type="submit" className="h-11 rounded-xl bg-violet-700 px-5 font-semibold shadow-lg shadow-violet-700/20 hover:bg-violet-800">Save Transaction</Button>
+        <Link href="/transaction" className="inline-flex h-11 items-center rounded-xl border border-white/90 bg-white/65 px-4 text-sm font-semibold text-slate-600 shadow-sm transition hover:bg-white hover:text-violet-700">
           Cancel
         </Link>
       </div>

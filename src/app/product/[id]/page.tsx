@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { buttonVariants } from "@/components/ui/button";
 import { ProductEditForm } from "@/components/product-edit-form";
 import { getProductById, listCategories, updateProductById } from "@/lib/store";
 
@@ -42,13 +41,16 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   if (!product) notFound();
 
   return (
-    <div className="flex flex-col gap-6">
-      <header className="rounded-2xl border bg-white p-6 shadow-sm">
-        <p className="text-sm text-zinc-500">Product Detail</p>
-        <h1 className="text-2xl font-semibold text-zinc-900">{product.name}</h1>
+    <div className="relative isolate flex flex-col gap-5 overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(135deg,#f5f1ff_0%,#f8f7ff_42%,#eef8fb_100%)] p-3 shadow-[0_24px_80px_rgba(73,61,112,0.12)] sm:p-5 xl:p-6">
+      <div aria-hidden="true" className="absolute -right-24 top-12 -z-10 size-72 rounded-full bg-cyan-300/25 blur-3xl" />
+      <div aria-hidden="true" className="absolute -left-20 bottom-20 -z-10 size-64 rounded-full bg-violet-300/20 blur-3xl" />
+      <header className="px-1 py-1">
+        <p className="text-sm font-medium text-violet-700">Product Detail</p>
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">{product.name}</h1>
+        <p className="mt-1 text-sm text-slate-600">Perbarui kategori, harga, dan stok produk.</p>
       </header>
 
-      <section className="grid gap-4 rounded-2xl border bg-white p-6 shadow-sm sm:grid-cols-2">
+      <section className="grid gap-4 rounded-3xl border border-white/70 bg-white/55 p-4 shadow-[0_18px_50px_rgba(76,65,120,0.10)] backdrop-blur-xl sm:grid-cols-2 sm:p-6">
         <ProductEditForm
           product={product}
           categories={categories.map((item) => item.name)}
@@ -58,7 +60,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       </section>
 
       <div>
-        <Link href="/product" className={buttonVariants({ variant: "outline" })}>
+        <Link href="/product" className="inline-flex h-11 items-center rounded-xl border border-white/90 bg-white/65 px-4 text-sm font-semibold text-slate-600 shadow-sm transition hover:bg-white hover:text-violet-700">
           Back to Product List
         </Link>
       </div>

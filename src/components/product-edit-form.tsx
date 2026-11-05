@@ -3,6 +3,9 @@
 import { type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 
+const fieldClass =
+  "h-11 rounded-xl border border-white/90 bg-white/70 px-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-violet-300 focus:ring-4 focus:ring-violet-100/70";
+
 type ProductEditFormProps = {
   product: {
     id?: string;
@@ -39,23 +42,23 @@ export function ProductEditForm({
       {product.id ? <input type="hidden" name="id" value={product.id} /> : null}
 
       <label className="flex flex-col gap-2">
-        <span className="text-xs uppercase tracking-wide text-zinc-500">Name</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Name</span>
         <input
           name="name"
           defaultValue={product.name}
           required
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
         />
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-xs uppercase tracking-wide text-zinc-500">Category</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Category</span>
         {categories && categories.length > 0 ? (
           <select
             name="category"
             defaultValue={product.category || categories[0]}
             required
-            className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+            className={fieldClass}
           >
             {categories.map((category) => (
               <option key={category} value={category}>
@@ -68,36 +71,38 @@ export function ProductEditForm({
             name="category"
             defaultValue={product.category}
             required
-            className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+            className={fieldClass}
           />
         )}
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-xs uppercase tracking-wide text-zinc-500">Price</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Price</span>
         <input
           name="price"
           type="text"
           defaultValue={product.price}
           required
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
         />
         <span className="text-xs text-zinc-500">Current: {priceLabel}</span>
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-xs uppercase tracking-wide text-zinc-500">Stock</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Stock</span>
         <input
           name="stock"
           type="text"
           defaultValue={product.stock}
           required
-          className="h-10 rounded-md border px-3 text-sm outline-none ring-zinc-300 focus:ring"
+          className={fieldClass}
         />
       </label>
 
       <div className="sm:col-span-2">
-        <Button type="submit">{submitLabel}</Button>
+        <Button type="submit" className="h-11 rounded-xl bg-violet-700 px-5 font-semibold shadow-lg shadow-violet-700/20 hover:bg-violet-800">
+          {submitLabel}
+        </Button>
       </div>
     </form>
   );
